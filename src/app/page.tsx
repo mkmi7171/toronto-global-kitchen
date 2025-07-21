@@ -1,6 +1,15 @@
 import { sanity } from "../lib/sanity";
 import { restaurantsQuery } from "../lib/queries";
 
+type Restaurant = {
+  _id: string;
+  name: string;
+  slug: string;
+  image: string;
+  description: string;
+  location: string;
+  tags: string[];
+};
 export default async function Home() {
   const restaurants = await sanity.fetch(restaurantsQuery);
   console.log(restaurants)
@@ -12,7 +21,7 @@ export default async function Home() {
         <p>No restaurants found.</p>
       ) : (
         <ul className="grid gap-6 grid-cols-1 md:grid-cols-3">
-          {restaurants.map((r: any) => (
+          {restaurants.map((r: Restaurant) => (
             <li
               key={r._id}
               className=" rounded-lg overflow-hidden bg-zinc-50 bg-white"
