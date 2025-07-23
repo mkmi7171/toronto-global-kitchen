@@ -38,5 +38,26 @@ export const restaurant = defineType({
       type: "array",
       of: [{ type: "string" }],
     },
+    {
+      name: "menu",
+      title: "Menu",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            { name: "title", title: "Title", type: "string" },
+            { name: "description", title: "Description", type: "text" },
+            { name: "price", title: "Price", type: "number" },
+            {
+              name: "image",
+              title: "Image",
+              type: "image",
+              options: { hotspot: true },
+            },
+          ],
+        },
+      ],
+    },
   ],
 });
