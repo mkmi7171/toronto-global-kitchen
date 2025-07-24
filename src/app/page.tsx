@@ -1,6 +1,7 @@
 import { sanity } from "../lib/sanity";
 import { restaurantsQuery } from "../lib/queries";
 import Link from "next/link";
+import Image from "next/image"; // Import Image
 
 type Restaurant = {
   _id: string;
@@ -29,9 +30,11 @@ export default async function Home() {
             >
               <Link href={`/restaurant/${r.slug}`}>
                 {r.image && (
-                  <img
+                  <Image // Use Image instead of img
                     src={r.image}
                     alt={r.name}
+                    width={500}
+                    height={300}
                     className="w-full h-48 object-cover"
                   />
                 )}

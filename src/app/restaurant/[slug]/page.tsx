@@ -2,39 +2,36 @@
 
 import { client } from "../../../sanity/lib/client";
 import { groq } from "next-sanity";
-
-interface RestaurantPageProps {
-  params: {
-    slug: string;
-  };
-}
+import Image from "next/image"; // 1. Import next/image
 
 // Define the type for the fetched restaurant data
 type RestaurantData = {
   _id: string;
   name: string;
-  slug: { current: string }; // Slugs are usually objects with a 'current' field
   description: string;
   location: string;
   tags: string[];
-  image: string; // Simplified: Assuming image is fetched as a direct URL string
+  image: string;
 };
 
 const query = groq`*[_type == "restaurant" && slug.current == $slug][0]{
   _id,
   name,
-  slug,
   description,
   location,
   tags,
-  "image": mainImage.asset->url // Fetch the image URL directly
+  "image": mainImage.asset->url
 }`;
 
 export default async function Page({
   params,
-}: RestaurantPageProps): Promise<React.JSX.Element> {
+}: {
+  params: Promise<{ slug: string }>; // It's a Promise now
+}) {
+  const { slug } = await params;
+
   const restaurant: RestaurantData = await client.fetch(query, {
-    slug: params.slug,
+    slug,
   });
 
   if (!restaurant) {
@@ -49,9 +46,12 @@ export default async function Page({
     <main className="p-6 text-black min-h-screen">
       <h1 className="text-3xl font-bold mb-8">{restaurant.name}</h1>
       {restaurant.image && (
-        <img
-          src={restaurant.image} // Using plain <img>
+        // 3. Use the <Image> component
+        <Image
+          src={restaurant.image}
           alt={restaurant.name}
+          width={800} // Add required width
+          height={400} // Add required height
           className="w-full h-64 object-cover mb-4 rounded-lg"
         />
       )}
