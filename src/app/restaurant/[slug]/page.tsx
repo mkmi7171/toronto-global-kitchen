@@ -37,7 +37,7 @@ export default async function Page({
   if (!restaurant) {
     return (
       <main className="p-6 text-black min-h-screen flex items-center justify-center">
-        <h1 className="text-2xl font-bold">Restaurant not found.</h1>
+        <h1 className="text-2xl font-bold">Restaurant not found</h1>
       </main>
     );
   }
