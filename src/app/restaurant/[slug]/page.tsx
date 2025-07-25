@@ -13,6 +13,7 @@ type RestaurantData = {
   tags: string[];
   image: string;
 };
+console.log(process.env.NEXT_PUBLIC_SANITY_DATASET)
 
 const query = groq`*[_type == "restaurant" && slug.current == $slug][0]{
   _id,
