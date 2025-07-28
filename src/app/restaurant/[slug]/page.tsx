@@ -1,10 +1,16 @@
-// src/app/restaurant/[slug]/page.tsx
+
 
 import { client } from "../../../sanity/lib/client";
 import { groq } from "next-sanity";
-import Image from "next/image"; // 1. Import next/image
+import Image from "next/image"; 
+import Link from "next/link";
 
-// Define the type for the fetched restaurant data
+type MenuItem = {
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+};
 type RestaurantData = {
   _id: string;
   name: string;
@@ -12,8 +18,8 @@ type RestaurantData = {
   location: string;
   tags: string[];
   image: string;
+  menu: MenuItem[]
 };
-console.log(process.env.NEXT_PUBLIC_SANITY_DATASET)
 
 const query = groq`*[_type == "restaurant" && slug.current == $slug][0]{
   _id,
@@ -21,13 +27,19 @@ const query = groq`*[_type == "restaurant" && slug.current == $slug][0]{
   description,
   location,
   tags,
-  "image": mainImage.asset->url
+  "image": mainImage.asset->url,
+   menu[] {
+    title,
+    description,
+    price,
+    "image": image.asset->url
+  }
 }`;
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>; // It's a Promise now
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
 
@@ -46,29 +58,28 @@ export default async function Page({
   return (
     <main className="p-6 text-black min-h-screen">
       <h1 className="text-3xl font-bold mb-8">{restaurant.name}</h1>
-      {restaurant.image && (
-        // 3. Use the <Image> component
-        <Image
-          src={restaurant.image}
-          alt={restaurant.name}
-          width={800} // Add required width
-          height={400} // Add required height
-          className="w-full h-64 object-cover mb-4 rounded-lg"
-        />
-      )}
       <p className="text-gray-600 mb-2">{restaurant.location}</p>
       <p className="mt-4 text-gray-800 leading-relaxed">
         {restaurant.description}
       </p>
-      <div className="mt-6 flex flex-wrap gap-2">
-        {restaurant.tags.map((tag: string) => (
-          <span
-            key={tag}
-            className="bg-gray-100 px-3 py-1 text-sm rounded-full text-gray-700"
-          >
-            #{tag}
-          </span>
-        ))}
+      <h2 className="text-xl font-bold my-8">Menu</h2>
+      <div className="mt-6 flex gap-2">
+      {restaurant.menu.map((item:MenuItem, index: number) => (
+    <div key={index} className="">
+      <div className="relative">
+      <Image
+        src={item.image}
+        alt={item.title}
+        width={200}
+        height={200}
+        className="rounded-lg w-48 h-48 object-cover"
+      />
+      <Link className="w-8 h-8 rounded-full bg-white flex justify-center absolute right-2 bottom-2" href={""}><span className="my-auto">+</span></Link>
+      </div>
+      <h3 className="mt-2 font-semibold">{item.title}</h3>
+      <p className="text-sm font-medium mt-1">${item.price.toFixed(2)}</p>
+    </div>
+  ))}
       </div>
     </main>
   );
