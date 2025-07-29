@@ -44,8 +44,8 @@ export default function MenuItemsClient({
           const cartItem = cartItems.find((i) => i.title === item.title);
           const quantity = cartItem?.quantity ?? 0;
           return (
-            <div>
-                <div key={index} className="relative ">
+            <div key={index}>
+                <div className="relative ">
               <Image
                 src={item.image}
                 alt={item.title}
