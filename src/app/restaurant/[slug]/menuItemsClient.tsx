@@ -43,9 +43,9 @@ export default function MenuItemsClient({
         {restaurant.menu.map((item, index) => {
           const cartItem = cartItems.find((i) => i.title === item.title);
           const quantity = cartItem?.quantity ?? 0;
-          console.log(quantity)
           return (
-            <div key={index} className="relative">
+            <div>
+                <div key={index} className="relative ">
               <Image
                 src={item.image}
                 alt={item.title}
@@ -54,14 +54,13 @@ export default function MenuItemsClient({
                 className="rounded-lg w-48 h-48 object-cover"
               />
 
-              <div className="absolute right-2 bottom-2 flex gap-1 items-center">
+              <div className="absolute right-2 bottom-2 flex gap-1 items-center bg-white rounded-full">
                 {quantity > 1 ? (
                   <button
                     onClick={() => {
                       decreaseQuantity(item.title);
-                      console.log(`${item.title} quantity:`, quantity - 1);
                     }}
-                    className="w-8 h-8 bg-white rounded-full flex justify-center items-center"
+                    className="w-8 h-8 flex justify-center items-center"
                   >
                     <FaMinus />
                   </button>
@@ -69,32 +68,32 @@ export default function MenuItemsClient({
                   <button
                     onClick={() => {
                       removeFromCart(item.title);
-                      console.log(`${item.title} removed from cart`);
                     }}
-                    className="w-8 h-8 bg-white rounded-full flex justify-center items-center"
+                    className="w-8 h-8 rounded-full flex justify-center items-center"
                   >
                     <FaTrash />
                   </button>
                 ) : null}
                 {quantity > 0 && (
-  <span className="bg-black text-white px-2 py-1 rounded text-sm font-bold">
-    {quantity}
-  </span>
-)}
+                    <span className="px-2 py-1 rounded text-sm font-bold">
+                        {quantity}
+                    </span>
+                    )}
 
                 <button
                   onClick={() => {
                     addToCart({ ...item, quantity: 1 });
-                    console.log(`${item.title} quantity:`, quantity + 1);
                   }}
-                  className="w-8 h-8 bg-white rounded-full flex justify-center items-center"
+                  className="w-8 h-8 rounded-full flex justify-center items-center"
                 >
                   <FaPlus />
                 </button>
               </div>
 
-              <h3 className="mt-2 font-semibold">{item.title}</h3>
-              <p className="text-sm font-medium mt-1">${item.price.toFixed(2)}</p>
+
+            </div>
+            <h3 className="mt-2 font-semibold">{item.title}</h3>
+            <p className="text-sm font-medium mt-1">${item.price.toFixed(2)}</p>
             </div>
           );
         })}
