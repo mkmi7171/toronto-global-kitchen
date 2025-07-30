@@ -5,12 +5,14 @@ import Link from "next/link";
 import { BsCart } from 'react-icons/bs';
 import { useRef, useState, useEffect } from "react";
 import CartModal from "@/app/cart";
+import AuthButton from "./authButton";
 
 export const Navbar = () => {
   const pathname = usePathname();
   const cartRef = useRef<HTMLButtonElement>(null);
   const [showModal, setShowModal] = useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
@@ -21,13 +23,14 @@ export const Navbar = () => {
       const rect = cartRef.current.getBoundingClientRect();
       setModalPosition({
         top: rect.bottom + 10, 
-        left: rect.left - 200 + rect.width,
+        left: rect.left - 300 + rect.width,
       });
     }
   }, [showModal]);
 
   return (
     <nav className="flex justify-between px-24 py-5">
+            <AuthButton />
       <div className="flex gap-10">
         <Link href="/" className={pathname === "/" ? "text-blue-600" : ""}>
           Home
@@ -49,6 +52,7 @@ export const Navbar = () => {
           <CartModal onClose={toggleModal} position={modalPosition} />
         )}
       </div>
+
     </nav>
   );
 };

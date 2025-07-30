@@ -77,7 +77,6 @@ export default function CartModal({ onClose, position }: CartModalProps) {
                   </select>
                 </div>
                 <button
-                  className="text-red-500"
                   onClick={() => removeFromCart(item.title)}
                 >
                   <FaTrash />
@@ -91,7 +90,7 @@ export default function CartModal({ onClose, position }: CartModalProps) {
               <span>Total:</span>
               <span>${total.toFixed(2)}</span>
             </div>
-            <button className="w-full bg-blue-600 text-white py-2 rounded">
+            <button className="w-full bg-black text-white py-2 rounded">
               Checkout
             </button>
           </div>

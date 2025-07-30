@@ -1,7 +1,7 @@
 import { sanity } from "../lib/sanity";
 import { restaurantsQuery } from "../lib/queries";
 import Link from "next/link";
-import Image from "next/image"; // Import Image
+import Image from "next/image"; 
 
 type Restaurant = {
   _id: string;
