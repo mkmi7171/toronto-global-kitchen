@@ -44,11 +44,8 @@ export const useCartStore = create<CartState>()(
         })),
       decrement: (title) =>
         set((state) => ({
-          items: state.items
-            .map((item) =>
-              item.title === title
-                ? { ...item, quantity: item.quantity - 1 }
-                : item
+          items: state.items.map((item) =>
+              item.title === title ? { ...item, quantity: item.quantity - 1 } : item
             )
             .filter((item) => item.quantity > 0),
         })),
